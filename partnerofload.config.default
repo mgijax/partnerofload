@@ -1,0 +1,93 @@
+#format: sh
+#
+#  Configuration for partnerofload
+#
+#  This file sets up environment variables that are needed for a 
+#  PAR Relationship Load
+#
+###########################################################################
+
+#
+#  If the MGICONFIG environment variable does not have a local override,
+#  use the default "live" settings.
+#
+if [ "${MGICONFIG}" = "" ]
+then
+    MGICONFIG=/usr/local/mgi/live/mgiconfig
+    export MGICONFIG
+fi
+
+CONFIG_MASTER=${MGICONFIG}/master.config.sh
+
+export CONFIG_MASTER
+
+. ${CONFIG_MASTER}
+
+# Full path the the logs, reports, and archive directories 
+FILEDIR=${DATALOADSOUTPUT}/mgi/partnerofload
+
+# Full path to the input, output, logs, reports and archive directories.
+INPUTDIR=${FILEDIR}/input
+LOGDIR=${FILEDIR}/logs
+RPTDIR=${FILEDIR}/reports
+OUTPUTDIR=${FILEDIR}/output
+ARCHIVEDIR=${FILEDIR}/archive
+
+export FILEDIR INPUTDIR LOGDIR RPTDIR OUTPUTDIR ARCHIVEDIR
+
+# Full path name of the published input file
+INPUT_FILE_DEFAULT="${INPUTDIR}/partnerofload.txt"
+
+export INPUT_FILE_DEFAULT
+
+# Full path to QC script
+#
+LOAD_QC_SH=${PARTNEROFLOAD}/bin/partnerOfQC.sh
+
+export LOAD_QC_SH
+
+#
+# Full path to the QC report
+#
+QC_RPT=${RPTDIR}/qc.rpt
+QC_LOGFILE=${LOGDIR}/partnerOfQC.log
+
+export QC_RPT QC_LOGFILE
+
+#  Full path name of the log files
+LOG_PROC=${LOGDIR}/partnerofload.proc.log
+LOG_DIAG=${LOGDIR}/partnerofload.diag.log
+LOG_CUR=${LOGDIR}/partnerofload.cur.log
+LOG_VAL=${LOGDIR}/partnerofload.val.log
+
+export LOG_PROC LOG_DIAG LOG_CUR LOG_VAL
+
+# Send debug messages to the diagnostic log (true or false)
+#  And don't execute BCP
+LOG_DEBUG=false
+
+export LOG_DEBUG
+
+###########################################################################
+#
+#  MISCELLANEOUS SETTINGS
+#
+###########################################################################
+
+#  The name of the load for the subject of an email notification
+MAIL_LOADNAME="PAR Relationship Load"
+
+# this load's login value for jobstream
+JOBSTREAM=partnerofload
+
+#  Recipient list for mailing the log files (comma-separated)
+MAIL_LOG_PROC="sc"
+#MAIL_LOG_PROC="mgiadmin"
+
+export MAIL_LOADNAME JOBSTREAM MAIL_LOG_PROC
+
+#  INSTALLDIR expected by dlautils/DLAInstall
+INSTALLDIR=${PARTNEROFLOAD}
+
+export INSTALLDIR
+
