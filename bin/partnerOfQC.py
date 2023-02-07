@@ -268,7 +268,7 @@ def writeReport():
         fpQcRpt.write(CRT + 'Total: %s' % len(orgPartSameList))
 
     if len(badParIdList):
-        fpQcRpt.write(CRT + CRT + str.center('Invalid Organizer and/or Participant ID',60) + CRT)
+        fpQcRpt.write(CRT + CRT + str.center('Invalid PAR Relationship',60) + CRT)
         fpQcRpt.write('%-12s  %-20s%s' % ('Line#','Line', CRT))
         fpQcRpt.write(12*'-' + '  ' + 20*'-' + CRT)
         fpQcRpt.write(''.join(badParIdList))
@@ -355,6 +355,7 @@ def runQcChecks():
         if orgID == '' or orgSym == '' or partID == '' or partSym == '':
             reqColumnList.append('%s  %s' % (lineNum, line))
             #hasFatalErrors = 1
+            line = fpInput.readline()
             continue
         # Now verify each column
 
@@ -363,12 +364,14 @@ def runQcChecks():
         if orgID == partID:
             orgPartSameList.append('%s  %s' % (lineNum, line))
             #hasFatalErrors = 1
+            line = fpInput.readline()
             continue
         # is orgID a par ID?
         if orgID not in parLookupDict:
             print('orgID not in parLookupDict')
             badParIdList.append('%s  %s' % (lineNum, line))
             #hasFatalErrors = 1
+            line = fpInput.readline()
             continue
         else:
             symChr =  parLookupDict[orgID]
@@ -378,19 +381,26 @@ def runQcChecks():
             if geneticChr != 'XY':
                 print('org geneticChr not "XY": %s symbol: %s' % (geneticChr, symbol))
                 invalidGeneticChrList.append('%s  %s' % (lineNum, line)) 
-                hasFatalErrors = 1
+                #hasFatalErrors = 1
+                line = fpInput.readline()
+                continue
+
             # does orgSym match orgID?
             if orgSym != symbol:
-               print ('orgSym != symbol')
-               idSymDiscrepList.append('%s  %s' % (lineNum, line))
-               #hasFatalErrors = 1
-               continue
+                print ('orgSym != symbol')
+                idSymDiscrepList.append('%s  %s' % (lineNum, line))
+                #hasFatalErrors = 1
+                line = fpInput.readline()
+                continue
 
         # is partID  a PAR ID?
         if partID not in parLookupDict:
             print('partID not in parLookupDict')
             badParIdList.append('%s  %s' % (lineNum, line))
-            hasFatalErrors = 1
+            #hasFatalErrors = 1
+            line = fpInput.readline()
+            continue
+
         else:
             symChr =  parLookupDict[partID]
             symbol, geneticChr = str.split(symChr, '|')
@@ -399,13 +409,18 @@ def runQcChecks():
             if geneticChr != 'XY':
                 print('geneticChr not "XY": %s symbol: %s' % (geneticChr, symbol))
                 invalidGeneticChrList.append('%s  %s' % (lineNum, line))
-                hasFatalErrors = 1
+                #hasFatalErrors = 1
+                line = fpInput.readline()
+                continue
 
             # does partSym match partID?
             if partSym != symbol:
                 print('partSym != symbol')
                 idSymDiscrepList.append('%s  %s' % (lineNum, line))
-                hasFatalErrors = 1
+                #hasFatalErrors = 1
+                line = fpInput.readline()
+                continue
+
 
         # check that one marker has genomic Chr=X and the other Chr=Y
         # 0 returned from the lookup indicates invalid ID
