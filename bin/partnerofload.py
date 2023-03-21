@@ -25,8 +25,8 @@
 #	A pipe-delimited file:
 #       	MGI_Relationship.bcp
 #
-#       Diagnostics file - for verification calls to loadlib and sourceloadlib
-#       Error file - for verification calls to loadlib and sourceloadlib
+#       Diagnostics file - for verification calls to loadlib 
+#       Error file - for verification calls to loadlib 
 #
 #  Exit Codes:
 #
