@@ -81,8 +81,7 @@ MAIL_LOADNAME="PAR Relationship Load"
 JOBSTREAM=partnerofload
 
 #  Recipient list for mailing the log files (comma-separated)
-MAIL_LOG_PROC="sc"
-#MAIL_LOG_PROC="mgiadmin"
+MAIL_LOG_PROC="mgiadmin"
 
 export MAIL_LOADNAME JOBSTREAM MAIL_LOG_PROC
 

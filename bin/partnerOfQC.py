@@ -9,7 +9,7 @@
 #
 #  Usage:
 #
-#      parnterOfQC.py  filename
+#      partnerOfQC.py  filename
 #
 #      where:
 #          filename = path to the input file
